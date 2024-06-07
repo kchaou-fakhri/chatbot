@@ -30,6 +30,7 @@ import com.dev0kch.chatbot.presentation.components.GradientButton
 import com.dev0kch.chatbot.presentation.navigation.Route
 import com.dev0kch.chatbot.ui.theme.primary
 import com.dev0kch.chatbot.ui.theme.second
+import com.dev0kch.chatbot.utils.GloablStyles
 
 
 @Composable
@@ -69,7 +70,7 @@ fun SplashScreen(navController: NavHostController) {
             fontSize = 40.sp,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 25.dp, top = 25.dp),
+                .padding(start = GloablStyles.Padding.ScreenPadding,top = GloablStyles.Padding.ScreenPadding,),
             fontWeight = FontWeight.W300,
             lineHeight = 50.sp,
 
@@ -80,7 +81,7 @@ fun SplashScreen(navController: NavHostController) {
             text = stringResource(id = R.string.txt_spalsh_small_msg),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(end = 25.dp, start = 25.dp, top = 35.dp),
+                .padding(end = GloablStyles.Padding.ScreenPadding ,start= GloablStyles.Padding.ScreenPadding, top = 35.dp),
             color = Color.White,
             lineHeight = 30.sp,
             fontSize = 17.sp,
@@ -93,7 +94,7 @@ fun SplashScreen(navController: NavHostController) {
             nameButton = stringResource(id = R.string.txt_next),
             roundedCornerShape = RoundedCornerShape(0),
             Modifier.padding(top = 100.dp),
-            onClick =   { navController.navigate(Route.HomeScreen.route) }
+            onClick =   { navController.navigate(Route.LoginScreen.route) }
         )
 
     }

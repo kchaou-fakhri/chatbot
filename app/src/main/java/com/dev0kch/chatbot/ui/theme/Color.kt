@@ -5,6 +5,14 @@ val background = Color(4278326553 )
 val primary  = Color(4286379693 )
 val second = Color(4278767598)
 
+val white = Color(4294967295)
+
+val textColorPrimary = Color(4294967295)
+
+val textColorHint = Color(4288914339)
+
+val backgroundTextField = Color(4280756007)
+
 val Purple80 = Color(0xFFD0BCFF)
 val PurpleGrey80 = Color(0xFFCCC2DC)
 val Pink80 = Color(0xFFEFB8C8)

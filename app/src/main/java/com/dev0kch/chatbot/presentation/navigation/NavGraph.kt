@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.dev0kch.chatbot.presentation.screens.auth.LoginScreen
 import com.dev0kch.chatbot.presentation.screens.home.HomeScreen
 import com.dev0kch.chatbot.presentation.screens.home.SplashScreen
 
@@ -21,6 +22,11 @@ fun HomeNavigation(startDestination: String) {
         composable(route = Route.HomeScreen.route) {
 
             HomeScreen(navController)
+        }
+
+        composable(route = Route.LoginScreen.route) {
+
+            LoginScreen(navController)
         }
     }
 }
