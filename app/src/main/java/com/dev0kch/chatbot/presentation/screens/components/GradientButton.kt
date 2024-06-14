@@ -1,4 +1,4 @@
-package com.dev0kch.chatbot.presentation.components
+package com.dev0kch.chatbot.presentation.screens.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
