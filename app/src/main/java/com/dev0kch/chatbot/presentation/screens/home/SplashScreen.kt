@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.dev0kch.chatbot.R
-import com.dev0kch.chatbot.presentation.components.GradientButton
+import com.dev0kch.chatbot.presentation.screens.components.GradientButton
 import com.dev0kch.chatbot.presentation.navigation.Route
 import com.dev0kch.chatbot.ui.theme.primary
 import com.dev0kch.chatbot.ui.theme.second

@@ -10,10 +10,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,19 +30,45 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.dev0kch.chatbot.R
-import com.dev0kch.chatbot.presentation.components.GradientButton
+import com.dev0kch.chatbot.presentation.screens.components.GradientButton
 import com.dev0kch.chatbot.presentation.navigation.Route
+import com.dev0kch.chatbot.presentation.viewmodel.AuthenticationViewModel
 import com.dev0kch.chatbot.ui.theme.background
 import com.dev0kch.chatbot.ui.theme.primary
 import com.dev0kch.chatbot.ui.theme.second
 import com.dev0kch.chatbot.ui.theme.textColorHint
 import com.dev0kch.chatbot.ui.theme.white
 import com.dev0kch.chatbot.utils.GloablStyles
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.dev0kch.chatbot.utils.Resource
+import com.dev0kch.chatbot.utils.validateEmail
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(navController: NavHostController?) {
+fun LoginScreen(
+    navController: NavHostController?,
+    authenticationViewModel: AuthenticationViewModel = hiltViewModel()
+) {
 
+    authenticationViewModel.loginFLow.value.let {
+        when (it) {
+            is Resource.Failure -> {
+
+            }
+
+            is Resource.Loading -> {
+
+            }
+
+            is Resource.Success -> {
+                LaunchedEffect(Unit) {
+                    navController?.navigate(Route.HomeScreen.route)
+                }
+            }
+
+            else -> {}
+        }
+    }
     val listColors = listOf(second, primary)
 
 
@@ -89,7 +117,7 @@ fun LoginScreen(navController: NavHostController?) {
                 contentDescription = null,
                 modifier = Modifier
                     .height(200.dp)
-                    .padding(top= 50.dp),
+                    .padding(top = 50.dp),
                 contentScale = ContentScale.Crop,
 
                 )
@@ -104,7 +132,7 @@ fun LoginScreen(navController: NavHostController?) {
 
                 .fillMaxWidth()
                 .padding(
-                     GloablStyles.Padding.ScreenPadding,
+                    GloablStyles.Padding.ScreenPadding,
                 ),
         )
 
@@ -144,9 +172,21 @@ fun LoginScreen(navController: NavHostController?) {
             cornerRadius = 5.dp, nameButton = stringResource(id = R.string.txt_login),
             roundedCornerShape = RoundedCornerShape(5.dp),
             modifier = Modifier.padding(top = 50.dp),
-            onClick = {navController?.navigate(Route.HomeScreen.route)}
+            onClick = { login(navController, email, password, authenticationViewModel) }
         )
     }
+}
+
+private fun login(
+    navController: NavHostController?,
+    email: String,
+    password: String,
+    authenticationViewModel: AuthenticationViewModel
+) {
+    if(validateEmail(email) && password.length>6){
+        authenticationViewModel.login(email, password)
+    }
+
 }
 
 @Preview
