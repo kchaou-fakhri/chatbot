@@ -21,25 +21,26 @@ class AuthenticationViewModel @Inject constructor(
     val loginFLow: StateFlow<Resource<FirebaseUser>?> = _loginFlow
 
 
+
     val currentUser: FirebaseUser?
         get() = authRepositoryImpl.currentUser
 
     init {
-        if(authRepositoryImpl != null){
+        if(authRepositoryImpl.currentUser?.email != null){
             _loginFlow.value = Resource.Success(authRepositoryImpl.currentUser!!)
         }
     }
 
     fun login(email: String, password: String) = viewModelScope.launch {
         _loginFlow.value = Resource.Loading
-        val result = authRepositoryImpl.login(User(email, password!!, null))
+        val result = authRepositoryImpl.login(User(email, password, null))
         _loginFlow.value = result
 
     }
 
     fun signUp(email: String, password: String) = viewModelScope.launch {
         _loginFlow.value = Resource.Loading
-        val result = authRepositoryImpl.signup(User(email, password!!, null))
+        val result = authRepositoryImpl.signup(User(email, password, null))
         _loginFlow.value = result
 
     }

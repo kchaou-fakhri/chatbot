@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -38,7 +37,7 @@ import com.dev0kch.chatbot.ui.theme.primary
 import com.dev0kch.chatbot.ui.theme.second
 import com.dev0kch.chatbot.ui.theme.textColorHint
 import com.dev0kch.chatbot.ui.theme.white
-import com.dev0kch.chatbot.utils.GloablStyles
+import com.dev0kch.chatbot.utils.GlobalStyles
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dev0kch.chatbot.utils.Resource
 import com.dev0kch.chatbot.utils.validateEmail
@@ -79,15 +78,15 @@ fun LoginScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(background)
-            .padding(top = GloablStyles.Padding.ScreenPadding)
+            .padding(top = GlobalStyles.Padding.ScreenPadding)
     ) {
 
         Text(
             text = stringResource(id = R.string.txt_login_into_account),
             modifier = Modifier.padding(
-                top = GloablStyles.Padding.ScreenPadding,
-                start = GloablStyles.Padding.ScreenPadding,
-                end = GloablStyles.Padding.ScreenPadding,
+                top = GlobalStyles.Padding.ScreenPadding,
+                start = GlobalStyles.Padding.ScreenPadding,
+                end = GlobalStyles.Padding.ScreenPadding,
                 bottom = 10.dp
 
 
@@ -101,7 +100,7 @@ fun LoginScreen(
             text = stringResource(id = R.string.txt_wlcm_back),
             modifier = Modifier.padding(
                 start =
-                GloablStyles.Padding.ScreenPadding,
+                GlobalStyles.Padding.ScreenPadding,
             ),
             color = textColorHint,
             fontSize = 13.sp,
@@ -132,7 +131,7 @@ fun LoginScreen(
 
                 .fillMaxWidth()
                 .padding(
-                    GloablStyles.Padding.ScreenPadding,
+                    GlobalStyles.Padding.ScreenPadding,
                 ),
         )
 
@@ -146,8 +145,8 @@ fun LoginScreen(
 
                 .fillMaxWidth()
                 .padding(
-                    start = GloablStyles.Padding.ScreenPadding,
-                    end = GloablStyles.Padding.ScreenPadding
+                    start = GlobalStyles.Padding.ScreenPadding,
+                    end = GlobalStyles.Padding.ScreenPadding
                 )
         )
 
@@ -156,7 +155,7 @@ fun LoginScreen(
                 .fillMaxWidth()
                 .padding(
                     top = 10.dp,
-                    end = GloablStyles.Padding.ScreenPadding
+                    end = GlobalStyles.Padding.ScreenPadding
                 ),
             horizontalArrangement = Arrangement.End
         ) {
@@ -172,18 +171,18 @@ fun LoginScreen(
             cornerRadius = 5.dp, nameButton = stringResource(id = R.string.txt_login),
             roundedCornerShape = RoundedCornerShape(5.dp),
             modifier = Modifier.padding(top = 50.dp),
-            onClick = { login(navController, email, password, authenticationViewModel) }
+            onClick = { login(email, password, authenticationViewModel) }
         )
     }
 }
 
 private fun login(
-    navController: NavHostController?,
+
     email: String,
     password: String,
     authenticationViewModel: AuthenticationViewModel
 ) {
-    if(validateEmail(email) && password.length>6){
+    if (validateEmail(email) && password.length > 6) {
         authenticationViewModel.login(email, password)
     }
 
