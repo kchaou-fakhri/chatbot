@@ -10,6 +10,10 @@
     <string name="txt_password">Password</string>
     <string name="txt_login">Login</string>
     <string name="txt_forget_password">Forget password</string>
-
+    <string name="txt_hello">Hello,</string>
+    <string name="txt_how_assist_you">How can I assist you right now?</string>
+    <string name="txt_talk_with_echo">Talk With Echo</string>
+    <string name="txt_search_by_image">Search by image</string>
+    <string name="txt_chat_with_echo">Chat With Echo</string>
 
 </resources>

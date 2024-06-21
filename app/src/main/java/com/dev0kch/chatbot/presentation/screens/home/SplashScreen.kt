@@ -30,7 +30,7 @@ import com.dev0kch.chatbot.presentation.screens.components.GradientButton
 import com.dev0kch.chatbot.presentation.navigation.Route
 import com.dev0kch.chatbot.ui.theme.primary
 import com.dev0kch.chatbot.ui.theme.second
-import com.dev0kch.chatbot.utils.GloablStyles
+import com.dev0kch.chatbot.utils.GlobalStyles
 
 
 @Composable
@@ -70,7 +70,7 @@ fun SplashScreen(navController: NavHostController) {
             fontSize = 40.sp,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = GloablStyles.Padding.ScreenPadding,top = GloablStyles.Padding.ScreenPadding,),
+                .padding(start = GlobalStyles.Padding.ScreenPadding,top = GlobalStyles.Padding.ScreenPadding,),
             fontWeight = FontWeight.W300,
             lineHeight = 50.sp,
 
@@ -81,7 +81,7 @@ fun SplashScreen(navController: NavHostController) {
             text = stringResource(id = R.string.txt_spalsh_small_msg),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(end = GloablStyles.Padding.ScreenPadding ,start= GloablStyles.Padding.ScreenPadding, top = 35.dp),
+                .padding(end = GlobalStyles.Padding.ScreenPadding ,start= GlobalStyles.Padding.ScreenPadding, top = 35.dp),
             color = Color.White,
             lineHeight = 30.sp,
             fontSize = 17.sp,
