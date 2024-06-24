@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface IAuth {
     val currentUser : FirebaseUser?
-     fun login(user : User) : Flow<Resource<FirebaseUser?>>
+    suspend fun login(user : User) : Flow<Resource<FirebaseUser?>>
 
-     fun signup(user : User) : Flow<Resource<FirebaseUser>>
+    suspend fun signup(user : User) : Flow<Resource<FirebaseUser>>
 }

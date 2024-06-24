@@ -18,7 +18,7 @@ class AuthRepositoryImpl @Inject constructor(
     override val currentUser: FirebaseUser?
         get() = firebaseAuth.currentUser
 
-    override fun login(user: User): Flow<Resource<FirebaseUser?>> {
+    override suspend fun login(user: User): Flow<Resource<FirebaseUser?>> {
 
         return flow {
 
@@ -35,7 +35,7 @@ class AuthRepositoryImpl @Inject constructor(
         }
     }
 
-    override  fun signup(user: User): Flow<Resource<FirebaseUser>> {
+    override suspend fun signup(user: User): Flow<Resource<FirebaseUser>> {
 
         return flow {
             try {

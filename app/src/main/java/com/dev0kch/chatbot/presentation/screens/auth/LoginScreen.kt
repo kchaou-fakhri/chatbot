@@ -42,15 +42,9 @@ import com.dev0kch.chatbot.ui.theme.textColorHint
 import com.dev0kch.chatbot.ui.theme.white
 import com.dev0kch.chatbot.utils.GlobalStyles
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.dev0kch.chatbot.utils.Resource
 import com.dev0kch.chatbot.utils.validateEmail
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
