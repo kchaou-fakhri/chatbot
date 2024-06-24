@@ -1,5 +1,6 @@
 package com.dev0kch.chatbot.presentation.screens.auth
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -15,9 +16,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -42,6 +45,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.dev0kch.chatbot.utils.Resource
 import com.dev0kch.chatbot.utils.validateEmail
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
@@ -49,22 +53,25 @@ fun LoginScreen(
     authenticationViewModel: AuthenticationViewModel = hiltViewModel()
 ) {
 
-    authenticationViewModel.loginFLow.value.let {
-        when (it) {
+    val scope = rememberCoroutineScope()
+
+    val loginFlow by authenticationViewModel.loginFLow.collectAsState()
+
+    LaunchedEffect(loginFlow) {
+        when (loginFlow) {
             is Resource.Failure -> {
-
+                // Handle failure
+                Log.println(Log.ASSERT, "Login", "Failure")
             }
-
             is Resource.Loading -> {
-
+                // Show loading
+                Log.println(Log.ASSERT, "Login", "Loading")
             }
-
             is Resource.Success -> {
-                LaunchedEffect(Unit) {
-                    navController?.navigate(Route.HomeScreen.route)
-                }
+                // Handle success
+                Log.println(Log.ASSERT, "Login", "Success")
+                navController?.navigate(Route.HomeScreen.route)
             }
-
             else -> {}
         }
     }
@@ -171,7 +178,7 @@ fun LoginScreen(
             cornerRadius = 5.dp, nameButton = stringResource(id = R.string.txt_login),
             roundedCornerShape = RoundedCornerShape(5.dp),
             modifier = Modifier.padding(top = 50.dp),
-            onClick = { login(email, password, authenticationViewModel) }
+            onClick = { login(email, password, authenticationViewModel, navController) }
         )
     }
 }
@@ -180,10 +187,13 @@ private fun login(
 
     email: String,
     password: String,
-    authenticationViewModel: AuthenticationViewModel
+    authenticationViewModel: AuthenticationViewModel, navController: NavHostController?
 ) {
+
     if (validateEmail(email) && password.length > 6) {
-        authenticationViewModel.login(email, password)
+
+            authenticationViewModel.login(email, password)
+
     }
 
 }

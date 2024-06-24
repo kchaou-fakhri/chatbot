@@ -18,6 +18,6 @@ class AppModule {
 
     @Provides
     fun provideAuthRepository(firebaseAuth : FirebaseAuth) : AuthRepositoryImpl {
-        return AuthRepositoryImpl(firebaseAuth )
+        return AuthRepositoryImpl(firebaseAuth)
     }
 }
