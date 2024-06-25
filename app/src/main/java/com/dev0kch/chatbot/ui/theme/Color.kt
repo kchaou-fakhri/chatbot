@@ -13,6 +13,7 @@ val white = Color(4294967295)
 val textColorPrimary = Color(4294967295)
 val textColorHint = Color(4288914339)
 val  textColorInCard = Color(4278326553)
+val textError= Color(4294198070)
 /******************************************/
 
 
