@@ -3,10 +3,11 @@ package com.dev0kch.chatbot.ui.theme
 import androidx.compose.ui.graphics.Color
 
 val background = Color(4278326553)
+val backgroundWithTransparent = Color(0x66021519)
 val primary = Color(4286379693)
 val second = Color(4278767598)
-val transparent = Color(0x85F3F3F3)
 
+val transparent = Color(0x85F3F3F3)
 val white = Color(4294967295)
 
 /******************* Text color ************/
@@ -21,8 +22,8 @@ val textError= Color(4294198070)
 val cardBackgroundPrimary = Color(4286379693)
 val cardBackgroundSecond = Color(4290573449)
 val cardBackgroundThird = Color(4293060351)
-
 /******************************************/
+
 
 val backgroundTextField = Color(4280756007)
 

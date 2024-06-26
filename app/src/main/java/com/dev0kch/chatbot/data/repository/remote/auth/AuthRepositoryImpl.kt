@@ -26,11 +26,12 @@ class AuthRepositoryImpl @Inject constructor(
                 emit(Resource.Loading)
                 val result =
                     firebaseAuth.signInWithEmailAndPassword(user.email, user.password!!).await()
+
                 emit(Resource.Success(result.user!!))
 
             } catch (e: Exception) {
                 e.printStackTrace()
-                Resource.Failure(e)
+                emit(Resource.Failure(e))
             }
         }
     }
