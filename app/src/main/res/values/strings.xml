@@ -14,7 +14,11 @@
     <string name="txt_how_assist_you">How can I assist you right now?</string>
     <string name="txt_talk_with_echo">Talk With Echo</string>
     <string name="txt_search_by_image">Search by image</string>
+    <string name="txt_ok">OK</string>
     <string name="txt_chat_with_echo">Chat With Echo</string>
+    <string name="dialog_invalid_login">Login or password is invalid</string>
+    <string name="dialog_msg_opes">Opes</string>
+
 
 
 </resources>

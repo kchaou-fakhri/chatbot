@@ -10,10 +10,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -23,7 +22,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -44,13 +42,14 @@ import com.dev0kch.chatbot.ui.theme.textColorHint
 import com.dev0kch.chatbot.ui.theme.white
 import com.dev0kch.chatbot.utils.GlobalStyles
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.dev0kch.chatbot.presentation.screens.components.CustomLoading
 import com.dev0kch.chatbot.ui.theme.textError
+import com.dev0kch.chatbot.utils.CustomAlertDialog
 import com.dev0kch.chatbot.utils.Resource
 import com.dev0kch.chatbot.utils.STRINGS
 import com.dev0kch.chatbot.utils.validateEmail
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
     navController: NavHostController?,
@@ -62,7 +61,10 @@ fun LoginScreen(
     var isPasswordError by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+
     var loading by remember { mutableStateOf(false) }
+    var loginError by remember { mutableStateOf(false) }
+
 
 
     val loginFlow by authenticationViewModel.loginFLow.collectAsState()
@@ -71,19 +73,19 @@ fun LoginScreen(
         when (loginFlow) {
             is Resource.Failure -> {
                 // Handle failure
-                Log.println(Log.ASSERT, "Login", "Failure")
+                loginError =true
+                loading = false
             }
 
             is Resource.Loading -> {
                 // Show loading
-                Log.println(Log.ASSERT, "Login", "Loading")
                 loading = true
             }
 
             is Resource.Success -> {
                 //        Handle success
-                Log.println(Log.ASSERT, "Login", "Success")
                 navController?.navigate(Route.HomeScreen.route)
+                loading = false
             }
 
             else -> {}
@@ -106,7 +108,7 @@ fun LoginScreen(
             } else {
                 isPasswordError
             }
-            return;
+            return
         } else {
             if (!validateEmail(email)) {
                 isEmailError = STRINGS.ENTER_VALID_EMAIL
@@ -116,7 +118,7 @@ fun LoginScreen(
             }
             Log.println(Log.ASSERT, "Password Length", password.length.toString())
 
-            if (password.length < 6) {
+            if (password.length <= 6) {
                 isPasswordError = STRINGS.PASSWORD_MUST_BE_LEAST_6CH
                 isValidCredential = false
 
@@ -138,166 +140,155 @@ fun LoginScreen(
     val listColors = listOf(second, primary)
 
 
-    if (loading) {
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(background),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(background)
+            .padding(top = GlobalStyles.Padding.ScreenPadding)
+    ) {
+
+        if (loading) {
+
+            CustomLoading()
+
+        }
+        if (loginError){
+            CustomAlertDialog(
+                onDismissRequest =  {loginError = false},
+                dismissText = "",
+                onConfirmation =  {loginError = false},
+                confirmationText = stringResource(id = R.string.txt_ok),
+                dialogTitle = stringResource(id = R.string.dialog_msg_opes),
+                dialogText = stringResource(id = R.string.dialog_invalid_login),
+                icon = Icons.Default.Info,
+
+            )
+        }
+        Text(
+            text = stringResource(id = R.string.txt_login_into_account),
+            modifier = Modifier.padding(
+                top = GlobalStyles.Padding.ScreenPadding,
+                start = GlobalStyles.Padding.ScreenPadding,
+                end = GlobalStyles.Padding.ScreenPadding,
+                bottom = 10.dp
+            ),
+            color = white,
+            fontSize = 20.sp,
+            fontWeight = FontWeight.W600
+        )
+
+        Text(
+            text = stringResource(id = R.string.txt_wlcm_back),
+            modifier = Modifier.padding(
+                start = GlobalStyles.Padding.ScreenPadding,
+            ),
+            color = textColorHint,
+            fontSize = 13.sp,
+            fontWeight = FontWeight.W400
+        )
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
         ) {
-            CircularProgressIndicator(
-                modifier = Modifier.width(64.dp),
-                color = primary,
+            Image(
+                painter = painterResource(id = R.drawable.security),
+                contentDescription = null,
+                modifier = Modifier
+                    .height(200.dp)
+                    .padding(top = 50.dp),
+                contentScale = ContentScale.Crop,
             )
         }
 
-    } else
-
-        Column(
+        TextField(
+            shape = RoundedCornerShape(5),
+            value = email,
+            onValueChange = { email = it },
+            label = { Text(text = stringResource(id = R.string.txt_email), fontSize = 13.sp) },
             modifier = Modifier
-                .fillMaxSize()
-                .background(background)
-                .padding(top = GlobalStyles.Padding.ScreenPadding)
-        ) {
-
-
-            Text(
-                text = stringResource(id = R.string.txt_login_into_account),
-                modifier = Modifier.padding(
+                .fillMaxWidth()
+                .padding(
                     top = GlobalStyles.Padding.ScreenPadding,
                     start = GlobalStyles.Padding.ScreenPadding,
-                    end = GlobalStyles.Padding.ScreenPadding,
-                    bottom = 10.dp
-
-
+                    end = GlobalStyles.Padding.ScreenPadding
                 ),
-                color = white,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.W600
-            )
+        )
 
+        Text(
+            text = isEmailError,
+            color = textError,
+            fontSize = GlobalStyles.Text.H5,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    top = 2.dp,
+                    bottom = 5.dp,
+                    start = GlobalStyles.Padding.ScreenPadding,
+                    end = GlobalStyles.Padding.ScreenPadding
+                ),
+        )
+
+
+        TextField(
+            shape = RoundedCornerShape(5),
+            value = password,
+            onValueChange = { password = it },
+            label = {
+                Text(
+                    text = stringResource(id = R.string.txt_password),
+                    fontSize = 13.sp
+                )
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    start = GlobalStyles.Padding.ScreenPadding,
+                    end = GlobalStyles.Padding.ScreenPadding
+                ),
+        )
+
+        Text(
+            text = isPasswordError,
+            color = textError,
+            fontSize = GlobalStyles.Text.H5,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    top = 2.dp,
+                    start = GlobalStyles.Padding.ScreenPadding,
+                    end = GlobalStyles.Padding.ScreenPadding
+                ),
+        )
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    end = GlobalStyles.Padding.ScreenPadding
+                ),
+            horizontalArrangement = Arrangement.End
+        ) {
             Text(
-                text = stringResource(id = R.string.txt_wlcm_back),
-                modifier = Modifier.padding(
-                    start =
-                    GlobalStyles.Padding.ScreenPadding,
-                ),
+                text = stringResource(id = R.string.txt_forget_password),
                 color = textColorHint,
                 fontSize = 13.sp,
-                fontWeight = FontWeight.W400
-            )
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.security),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .height(200.dp)
-                        .padding(top = 50.dp),
-                    contentScale = ContentScale.Crop,
-
-                    )
-            }
-
-            TextField(
-                shape = RoundedCornerShape(5),
-                value = email,
-                onValueChange = { email = it },
-                label = { Text(text = stringResource(id = R.string.txt_email), fontSize = 13.sp) },
-                modifier = Modifier
-
-                    .fillMaxWidth()
-                    .padding(
-                        top = GlobalStyles.Padding.ScreenPadding,
-                        start = GlobalStyles.Padding.ScreenPadding,
-                        end = GlobalStyles.Padding.ScreenPadding
-                    ),
-            )
-
-            Text(
-                text = isEmailError,
-                color = textError,
-                fontSize = GlobalStyles.Text.H5,
-                modifier = Modifier
-
-                    .fillMaxWidth()
-                    .padding(
-                        top = 2.dp,
-                        bottom = 5.dp,
-                        start = GlobalStyles.Padding.ScreenPadding,
-                        end = GlobalStyles.Padding.ScreenPadding
-
-                    ),
-            )
-
-
-
-            TextField(
-                shape = RoundedCornerShape(5),
-
-                value = password,
-                onValueChange = { password = it },
-                label = {
-                    Text(
-                        text = stringResource(id = R.string.txt_password),
-                        fontSize = 13.sp
-                    )
-                },
-                modifier = Modifier
-
-                    .fillMaxWidth()
-                    .padding(
-                        start = GlobalStyles.Padding.ScreenPadding,
-                        end = GlobalStyles.Padding.ScreenPadding
-                    ),
-
-
-                )
-
-            Text(
-                text = isPasswordError,
-                color = textError,
-                fontSize = GlobalStyles.Text.H5,
-                modifier = Modifier
-
-                    .fillMaxWidth()
-                    .padding(
-                        top = 2.dp,
-                        start = GlobalStyles.Padding.ScreenPadding,
-                        end = GlobalStyles.Padding.ScreenPadding
-                    ),
-            )
-
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-
-                        end = GlobalStyles.Padding.ScreenPadding
-                    ),
-                horizontalArrangement = Arrangement.End
-            ) {
-                Text(
-                    text = stringResource(id = R.string.txt_forget_password),
-                    color = textColorHint,
-                    fontSize = 13.sp, fontWeight = FontWeight.W700
-                )
-            }
-
-            GradientButton(
-                gradientColors = listColors,
-                cornerRadius = 5.dp, nameButton = stringResource(id = R.string.txt_login),
-                roundedCornerShape = RoundedCornerShape(5.dp),
-                modifier = Modifier.padding(top = 50.dp),
-                onClick = { login() }
+                fontWeight = FontWeight.W700
             )
         }
+
+        GradientButton(
+            gradientColors = listColors,
+            cornerRadius = 5.dp, nameButton = stringResource(id = R.string.txt_login),
+            roundedCornerShape = RoundedCornerShape(5.dp),
+            modifier = Modifier.padding(top = 50.dp),
+            onClick = { login() }
+        )
+    }
+
 
 }
 
